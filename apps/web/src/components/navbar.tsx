@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import posthog from "posthog-js";
 import { useEffect, useState } from "react";
-import ThemeSwitch from "@/components/portfolio/theme-switch";
 import { Button } from "@/components/ui/button";
 import {
   Drawer,
@@ -29,11 +28,7 @@ import { useIsMobile } from "@/hooks/use-mobile";
 import type { labs } from "@/lib/source";
 import { cn } from "@/lib/utils";
 
-interface NavbarClientProps {
-  tree: typeof labs.pageTree;
-}
-
-export default function NavbarClient({ tree }: NavbarClientProps) {
+export default function NavbarClient() {
   const isMobile = useIsMobile({ breakpoint: 512 });
   const isInLabsBreakpoint = useIsMobile({ breakpoint: 1280 });
 
@@ -263,7 +258,7 @@ export default function NavbarClient({ tree }: NavbarClientProps) {
               href="/"
               className="font-medium font-mono text-xs sm:text-base"
             >
-              hexaa
+              project clarias
             </Link>
             {matchPath(pathname, backItems) && (
               <Link href="/blog" className="flex h-4 items-center">
@@ -294,7 +289,6 @@ export default function NavbarClient({ tree }: NavbarClientProps) {
                 ))}
               </nav>
             )}
-            <ThemeSwitch />
           </div>
         </div>
       </div>
