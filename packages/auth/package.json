@@ -1,0 +1,26 @@
+{
+  "name": "@project-clarias/auth",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./server": "./src/index.ts",
+    "./client": "./src/client.ts"
+  },
+  "dependencies": {
+    "@better-fetch/fetch": "^1.3.0",
+    "@project-clarias/database": "*",
+    "@project-clarias/env": "*",
+    "@project-clarias/shared": "*",
+    "@project-clarias/util": "*",
+    "better-auth": "^1.6.18",
+    "posthog-js": "^1.386.6"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

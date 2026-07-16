@@ -1,0 +1,26 @@
+{
+  "name": "@project-clarias/backend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@better-fetch/fetch": "^1.3.0",
+    "@hono/zod-validator": "^0.8.0",
+    "@project-clarias/auth": "*",
+    "@project-clarias/database": "*",
+    "@project-clarias/env": "*",
+    "@project-clarias/rpc-bot": "*",
+    "@project-clarias/shared": "*",
+    "hono": "^4.12.25",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

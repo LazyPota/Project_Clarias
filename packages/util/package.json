@@ -1,0 +1,23 @@
+{
+  "name": "@project-clarias/util",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./*": "./src/*.ts"
+  },
+  "dependencies": {
+    "@project-clarias/env": "*",
+    "better-auth": "^1.6.18",
+    "clsx": "^2.1.1",
+    "slack-block-builder": "^2.8.0",
+    "tailwind-merge": "^3.6.0"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}
