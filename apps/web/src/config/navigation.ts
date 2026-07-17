@@ -3,6 +3,8 @@ import {
   Droplets,
   Warehouse,
   BadgeDollarSign,
+  Fish,
+  Waves,
   type LucideIcon,
 } from "lucide-react";
 
@@ -22,6 +24,16 @@ export const NAV_ITEMS: NavItem[] = [
     label: "Environment",
     href: "/environment",
     icon: Droplets,
+  },
+  {
+    label: "Ponds",
+    href: "/ponds",
+    icon: Waves,
+  },
+  {
+    label: "Feeding",
+    href: "/feeding",
+    icon: Fish,
   },
   {
     label: "Harvest",

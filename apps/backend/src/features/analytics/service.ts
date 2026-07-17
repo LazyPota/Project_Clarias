@@ -15,7 +15,6 @@ export class AnalyticsService {
     const isOwner = await this.verifyPondOwner(pondId, userId);
     if (!isOwner) return null;
 
-    // 1. Fetch environmental averages
     const envLogs = await db
       .select()
       .from(environmentLog)
@@ -46,7 +45,6 @@ export class AnalyticsService {
       averageTemperature = totalTemp / envLogs.length;
       averageWaterLevel = totalWater / envLogs.length;
 
-      // Compute efficiencies based on averages (similar to client-side formula)
       const phScore = averagePH >= 6.5 && averagePH <= 8.5 ? 100 : Math.max(0, 100 - Math.abs(averagePH - 7.5) * 20);
       const doScore = averageDO >= 5 ? 100 : (averageDO / 5) * 100;
       const tempScore =
@@ -63,7 +61,6 @@ export class AnalyticsService {
       feedEfficiency = Math.round(doFactor * tempFactor * 100);
     }
 
-    // 2. Fetch feeding metrics
     const feedLogs = await db
       .select()
       .from(feedingLog)

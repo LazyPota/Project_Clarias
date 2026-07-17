@@ -1,26 +1,21 @@
 import type { Metadata } from "next";
-import { Inter, Roboto_Mono, Instrument_Sans } from "next/font/google";
-import { Toaster } from "sonner";
+import { Geist, Geist_Mono } from "next/font/google";
+import { AppShell } from "@/components/app-shell";
 import { Providers } from "@/lib/providers";
 import "./globals.css";
 
-const geistSans = Inter({
+const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Roboto_Mono({
+const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
 
-const instrumentSans = Instrument_Sans({
-  variable: "--font-instrument-sans",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Project Clarias — Aquaculture Dashboard",
+  title: "Project Clarias - Monitoring Dashboard",
   description:
     "Aquaculture monitoring dashboard for water quality, harvest tracking, and financial reporting.",
 };
@@ -33,12 +28,11 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSans.variable} h-full scroll-smooth antialiased`}
+      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col">
+      <body className="min-h-full flex flex-col">
         <Providers>
-          {children}
-          <Toaster richColors position="bottom-right" />
+          <AppShell>{children}</AppShell>
         </Providers>
       </body>
     </html>

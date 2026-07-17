@@ -1,136 +1,119 @@
 "use client";
 
-import { Activity, Package, Scale, Waves } from "lucide-react";
-import { AICopilotSection } from "@/components/ai-copilot";
-import { BiomassChart } from "@/components/biomass-chart";
+import { useState, useEffect } from "react";
+import { LayoutDashboard, Sparkles, HeartPulse, CheckCircle2 } from "lucide-react";
 import { EnvironmentMonitor } from "@/components/environment-monitor";
+import { BiomassChart } from "@/components/biomass-chart";
+import { AICopilotSection as AICopilot } from "@/components/ai-copilot";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PlusSeparator } from "@/components/ui/plus-separator";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function DashboardPage() {
+  const [isLoading, setIsLoading] = useState(true);
+  const [healthScore, setHealthScore] = useState(0);
+  const [aiSummary, setAiSummary] = useState("");
+  const [recommendations, setRecommendations] = useState<string[]>([]);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setHealthScore(92);
+      setAiSummary("The pond ecosystem is highly stable. Water parameters are within optimal ranges for Clarias gariepinus growth. Biomass accumulation is tracking 4% ahead of the predictive model.");
+      setRecommendations([
+        "Maintain current feeding rate of 45kg/day.",
+        "Schedule routine water sampling for next Tuesday.",
+        "Prepare for partial harvest in approximately 14 days."
+      ]);
+      setIsLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <div className="flex flex-col gap-8">
       <div className="flex flex-col gap-2">
-        <h1 className="font-bold font-montreal text-3xl tracking-tight">
-          Dashboard Overview
+        <h1 className="flex items-center gap-3 font-bold font-montreal text-3xl tracking-tight text-foreground">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-indigo-500/10 text-indigo-600 border border-indigo-500/20 shadow-sm">
+            <LayoutDashboard className="h-5 w-5" />
+          </div>
+          Operational Hub
         </h1>
-        <p className="font-mono text-muted-foreground text-sm">
-          Real-time metrics and AI insights for your active ponds.
+        <p className="font-mono text-muted-foreground text-sm max-w-2xl">
+          Real-time overview of your aquaculture operation. Monitor ecosystem health, AI insights, and key performance indicators at a glance.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        <Card className="rounded-xl border border-separator/10 bg-muted/20 shadow-sm transition hover:bg-muted/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="font-mono font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
-              Active Ponds
-            </CardTitle>
-            <Activity className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="font-bold font-mono text-2xl text-foreground">3</div>
-            <p className="text-muted-foreground text-xs">
-              +1 from last month
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-xl border border-separator/10 bg-muted/20 shadow-sm transition hover:bg-muted/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="font-mono font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
-              Estimated Biomass
-            </CardTitle>
-            <Scale className="h-4 w-4 text-emerald-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="font-bold font-mono text-2xl text-foreground">
-              4,250 <span className="font-normal text-sm">kg</span>
-            </div>
-            <p className="text-muted-foreground text-xs">
-              Harvest ready in 14 days
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-xl border border-separator/10 bg-muted/20 shadow-sm transition hover:bg-muted/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="font-mono font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
-              Average DO
-            </CardTitle>
-            <Waves className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="font-bold font-mono text-2xl text-foreground">
-              6.8 <span className="font-normal text-sm">mg/L</span>
-            </div>
-            <p className="text-emerald-500 text-xs">
-              All ponds within safe limits
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card className="rounded-xl border border-separator/10 bg-muted/20 shadow-sm transition hover:bg-muted/30">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="font-mono font-medium text-[10px] text-muted-foreground uppercase tracking-wider">
-              Total Feed Disbursed
-            </CardTitle>
-            <Package className="h-4 w-4 text-orange-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="font-bold font-mono text-2xl text-foreground">
-              1,240 <span className="font-normal text-sm">kg</span>
-            </div>
-            <p className="text-muted-foreground text-xs">
-              This cycle (Pond-01)
-            </p>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div className="flex flex-col gap-8">
-        <section className="relative overflow-hidden rounded-xl border border-separator/10 bg-background p-6 shadow-sm">
-          <div className="mb-6 flex items-center justify-between border-separator/10 border-b pb-4">
-            <div>
-              <h2 className="font-bold font-montreal text-xl text-foreground">
-                Harvest Performance
-              </h2>
-              <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
-                Estimated vs Actual Yield Tracking
-              </p>
-            </div>
+      <section>
+        {isLoading ? (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <Skeleton className="h-48 rounded-xl" />
+            <Skeleton className="h-48 rounded-xl lg:col-span-2" />
           </div>
-          <BiomassChart />
-          <PlusSeparator position={["top-left", "top-right"]} />
-        </section>
+        ) : (
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <Card className="relative overflow-hidden border-separator/10">
+              <CardHeader className="pb-2">
+                <CardTitle className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
+                  <HeartPulse className="h-3.5 w-3.5" />
+                  Overall Health Score
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col items-center justify-center pt-2 pb-6">
+                <div className="text-6xl font-bold font-montreal tracking-tight text-indigo-600">{healthScore}</div>
+                <span className="mt-1 font-mono text-[10px] text-muted-foreground uppercase tracking-wider">/ 100</span>
+              </CardContent>
+            </Card>
 
-        <section className="relative overflow-hidden rounded-xl border border-separator/10 bg-background p-6 shadow-sm">
-          <div className="mb-6 flex items-center justify-between border-separator/10 border-b pb-4">
-            <div>
-              <h2 className="font-bold font-montreal text-xl text-foreground">
-                Environment Snapshot
-              </h2>
-              <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
-                Realtime Sensor Telemetry
-              </p>
+            <Card className="lg:col-span-2 border-separator/10">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 font-montreal text-lg tracking-tight">
+                  <Sparkles className="h-4 w-4 text-amber-500" />
+                  AI Intelligence Summary
+                </CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {aiSummary}
+                </p>
+                <div className="space-y-2">
+                  <h4 className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Key Recommendations</h4>
+                  <ul className="space-y-1.5">
+                    {recommendations.map((rec, index) => (
+                      <li key={index} className="flex items-start gap-2 text-sm text-foreground">
+                        <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0 text-emerald-500" />
+                        {rec}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        )}
+      </section>
+
+      <section>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div className="relative overflow-hidden rounded-xl border border-separator/10 bg-background p-6 shadow-sm">
+            <div className="mb-4">
+              <h2 className="font-bold font-montreal text-xl text-foreground">Environment Snapshot</h2>
+              <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Live Sensor Feed</p>
             </div>
+            {isLoading ? <Skeleton className="h-80 rounded-xl" /> : <EnvironmentMonitor />}
           </div>
-          <EnvironmentMonitor />
-          <PlusSeparator position={["top-left", "top-right"]} />
-        </section>
+          <div className="relative overflow-hidden rounded-xl border border-separator/10 bg-background p-6 shadow-sm">
+            <div className="mb-4">
+              <h2 className="font-bold font-montreal text-xl text-foreground">Biomass Performance</h2>
+              <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">Growth Trajectory</p>
+            </div>
+            {isLoading ? <Skeleton className="h-80 rounded-xl" /> : <BiomassChart />}
+          </div>
+        </div>
+      </section>
 
-        <section className="relative overflow-hidden rounded-xl border border-separator/10 bg-background p-6 shadow-sm">
-          <div className="mb-6 border-separator/10 border-b pb-4">
-            <h2 className="font-bold font-montreal text-xl text-foreground">
-              Clarie AI
-            </h2>
-            <p className="font-mono text-[10px] text-muted-foreground uppercase tracking-wider">
-              Your Smart Pond Assistant
-            </p>
-          </div>
-          <AICopilotSection />
-          <PlusSeparator position={["top-left", "top-right"]} />
-        </section>
-      </div>
+      <section>
+        {isLoading ? <Skeleton className="h-64 rounded-xl" /> : <AICopilot />}
+      </section>
     </div>
   );
 }
